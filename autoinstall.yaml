@@ -1,0 +1,26 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: pt_PT
+  keyboard:
+    layout: pt
+    variant: ''
+  user-data:
+    users:
+      - name: snats-server
+        passwd: "$6$tN0oA8KjN0oA8KjN$tN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN0oA8KjN" # Hash da senha "0326"
+        sudo: ALL
+        groups: users,adm,sudo
+        shell: /bin/bash
+    chpasswd:
+      expire: false
+  network:
+    networkd:
+      ethernets:
+        enp0s3: # Adapte para o nome da sua interface de rede se for diferente (ex: eth0, ens33)
+          dhcp4: true
+  storage:
+    layout:
+      name: direct
+  early-commands:
+    - curtin in-target -- sh -c 'apt update && apt install -y open-vm-tools' # Opcional: Instala Open VM Tools (para VirtualBox)
